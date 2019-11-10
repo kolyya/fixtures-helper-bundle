@@ -1,0 +1,25 @@
+{
+    "name": "kolyya/fixtures-helper-bundle",
+    "type" : "symfony-bundle",
+    "description": "Symfony bundle with with helpers for fixtures",
+    "license": "MIT",
+    "authors": [
+        {
+            "name" : "Nikolai Gurin",
+            "email" : "0kolyya@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^7.1.3",
+        "symfony/framework-bundle": "^4.0",
+        "symfony/orm-pack": "^1.0",
+        "doctrine/doctrine-fixtures-bundle": "^3.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Kolyya\\FixturesHelperBundle\\": ""
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

@@ -1,0 +1,9 @@
+services:
+  Kolyya\FixturesHelperBundle\Command\FixturesLoadCommand:
+    tags:
+      name: console.command
+      command: kolyya:fixtures:load
+
+  Kolyya\FixturesHelperBundle\Service\UploaderHelper:
+    arguments:
+      $kernelProjectDir: '%kernel.project_dir%'
