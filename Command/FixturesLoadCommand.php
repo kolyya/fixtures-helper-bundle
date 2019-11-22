@@ -2,6 +2,7 @@
 
 namespace Kolyya\FixturesHelperBundle\Command;
 
+use Kolyya\FixturesHelperBundle\DependencyInjection\Configuration;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
@@ -13,11 +14,24 @@ class FixturesLoadCommand extends Command
 {
     protected static $defaultName = 'kolyya:fixtures:load';
 
+    /**
+     * @var array
+     */
+    private $loadConfig;
+
+    public function __construct(array $loadConfig, string $name = null)
+    {
+        parent::__construct($name);
+
+        $this->loadConfig = $loadConfig;
+    }
+
     protected function configure()
     {
         $this
             ->setDescription('Deletes the database, creates the database, updates the schema, loads fixtures');
-        $this->addOption('force', null, InputOption::VALUE_OPTIONAL, 'fff', false);
+        $this->addOption('force', null, InputOption::VALUE_OPTIONAL, 'Execute without confirmation?', false);
+        $this->addOption('config', null, InputOption::VALUE_OPTIONAL, 'Config name', 'default');
     }
 
     /**
@@ -29,6 +43,8 @@ class FixturesLoadCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new SymfonyStyle($input, $output);
+
+        $configName =  $input->getOption('config');
 
         if ($input->getOption('env') !== 'test' && $input->getOption('force') === false) {
             $pass = rand(100, 999);
@@ -43,10 +59,10 @@ class FixturesLoadCommand extends Command
         }
 
         $commandsArr = [
-            ['name' => 'doctrine:database:drop', 'args' => ['--force' => true]],
-            ['name' => 'doctrine:database:create', 'args' => []],
-            ['name' => 'doctrine:schema:update', 'args' => ['--force' => true]],
-            ['name' => 'doctrine:fixtures:load', 'args' => ['--append' => true]],
+            ['name' => 'doctrine:database:drop', 'args' => $this->loadConfig[$configName]['drop']],
+            ['name' => 'doctrine:database:create', 'args' => $this->loadConfig[$configName]['create']],
+            ['name' => 'doctrine:schema:update', 'args' => $this->loadConfig[$configName]['update']],
+            ['name' => 'doctrine:fixtures:load', 'args' => $this->loadConfig[$configName]['load']],
         ];
 
         foreach ($commandsArr as $item) {

@@ -3,6 +3,8 @@ services:
     tags:
       name: console.command
       command: kolyya:fixtures:load
+    arguments:
+      $loadConfig: '%kolyya_fixtures_helper.load%'
 
   Kolyya\FixturesHelperBundle\Service\UploaderHelper:
     arguments:

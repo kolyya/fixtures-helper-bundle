@@ -16,6 +16,20 @@ class KolyyaFixturesHelperExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
+        $configuration = new Configuration();
+        $config = $this->processConfiguration($configuration, $configs);
+
+        foreach ($config['load'] as $configName => $configItem) {
+            foreach ($configItem as $commandName => $attributes) {
+                $config['load'][$configName][$commandName] = array_merge(
+                    Configuration::$defaultConfig[$commandName],
+                    $config['load'][$configName][$commandName]
+                );
+            }
+        }
+
+        $container->setParameter('kolyya_fixtures_helper.load', $config['load']);
+
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yaml');
 
