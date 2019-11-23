@@ -31,3 +31,29 @@ kolyya_fixtures_helper:
       load: { "--em": 'my_em' }
 ```
 
+### Upload File
+
+1. Create a directory, for example `<kernel_project_dir>/assets/fixtures/product`
+
+2. Put files to upload there
+
+3. Inherit DataFixtures class from `Kolyya\FixturesHelperBundle\DataFixtures\BaseUploadFileFixtures`
+
+4. Add `getAssetPath` method to the DataFixtures class. 
+It should return the relative path to the directory. 
+    ```php
+        // ...
+        public function getAssetPath(): string
+        {
+            return '/assets/fixtures/product';
+        }
+        // ...
+    ```
+
+5. Get file
+    ```php
+        // ...
+        $imageFile = $this->getUploadedFile('image.jpg');
+        $product->setImageFile($imageFile);
+        // ...
+    ```

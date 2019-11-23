@@ -27,6 +27,9 @@ class KolyyaFixturesHelperExtension extends Extension
                 );
             }
         }
+        if (!isset($config['load'][Configuration::DEFAULT_NAME])) {
+            $config['load'][Configuration::DEFAULT_NAME] = Configuration::$defaultConfig;
+        }
 
         $container->setParameter('kolyya_fixtures_helper.load', $config['load']);
 

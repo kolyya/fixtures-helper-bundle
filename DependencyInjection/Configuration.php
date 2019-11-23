@@ -10,22 +10,23 @@ use Symfony\Component\HttpKernel\Kernel;
 class Configuration implements ConfigurationInterface
 {
     const PREFIX = 'kolyya_fixtures_helper';
+    const DEFAULT_NAME = 'default';
 
     public static $defaultConfig = [
         'drop' => [
-            '--connection' => 'default',
-            '--if-exists' => true,
+            '--connection' => self::DEFAULT_NAME,
+//            '--if-exists' => true,
             '--force' => true,
         ],
         'create' => [
-            '--connection' => 'default',
+            '--connection' => self::DEFAULT_NAME,
         ],
         'update' => [
-            '--em' => 'default',
+            '--em' => self::DEFAULT_NAME,
             '--force' => true,
         ],
         'load' => [
-            '--em' => 'default',
+            '--em' => self::DEFAULT_NAME,
             '--append' => true,
         ],
     ];
@@ -49,7 +50,7 @@ class Configuration implements ConfigurationInterface
     {
         $node->children()
             ->arrayNode('load')
-            ->defaultValue(['default' => self::$defaultConfig])
+            ->defaultValue([self::DEFAULT_NAME => self::$defaultConfig])
             ->info('load configs')
             ->useAttributeAsKey('id')
             ->prototype('array')
