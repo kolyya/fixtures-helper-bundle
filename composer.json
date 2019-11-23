@@ -1,7 +1,7 @@
 {
     "name": "kolyya/fixtures-helper-bundle",
     "type" : "symfony-bundle",
-    "description": "Symfony bundle with with helpers for fixtures",
+    "description": "Symfony bundle with helpers for fixtures",
     "license": "MIT",
     "authors": [
         {
