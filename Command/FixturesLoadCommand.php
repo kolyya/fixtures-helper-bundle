@@ -73,5 +73,7 @@ class FixturesLoadCommand extends Command
         }
 
         $io->success('New data uploaded to the database');
+
+        return 0;
     }
 }
