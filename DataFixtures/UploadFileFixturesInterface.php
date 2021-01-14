@@ -2,12 +2,16 @@
 
 namespace Kolyya\FixturesHelperBundle\DataFixtures;
 
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
 interface UploadFileFixturesInterface
 {
     /**
      * Should return relative path to the directory with files
-     * @example /assets/fixtures/product
      * @return string
+     * @example /assets/fixtures/product
      */
     public function getAssetPath(): string;
+
+    public function getUploadedFile(string $imageName): UploadedFile;
 }
