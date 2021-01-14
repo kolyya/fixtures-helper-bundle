@@ -14,4 +14,6 @@ interface UploadFileFixturesInterface
     public function getAssetPath(): string;
 
     public function getUploadedFile(string $imageName): UploadedFile;
+
+    public function clearDirectories(array $paths): void;
 }

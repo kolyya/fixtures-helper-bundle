@@ -26,4 +26,16 @@ trait UploadFileTrait
     {
         return sprintf('%s%s/', $this->kernelProjectDir, $this->getAssetPath());
     }
+
+    public function clearDirectories(array $paths): void
+    {
+        foreach ($paths as $path) {
+            $files = glob($this->kernelProjectDir . $path[0], $path[1]);
+            foreach ($files as $file) {
+                if (file_exists($file)) {
+                    unlink($file);
+                }
+            }
+        }
+    }
 }
