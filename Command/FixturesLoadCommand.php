@@ -59,8 +59,7 @@ class FixturesLoadCommand extends Command
         }
 
         $commandsArr = [
-            ['name' => 'doctrine:database:drop', 'args' => $this->loadConfig[$configName]['drop']],
-            ['name' => 'doctrine:database:create', 'args' => $this->loadConfig[$configName]['create']],
+            ['name' => 'doctrine:schema:drop', 'args' => $this->loadConfig[$configName]['drop']],
             ['name' => 'doctrine:schema:update', 'args' => $this->loadConfig[$configName]['update']],
             ['name' => 'doctrine:fixtures:load', 'args' => $this->loadConfig[$configName]['load']],
         ];

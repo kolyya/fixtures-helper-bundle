@@ -25,8 +25,7 @@ kolyya_fixtures_helper:
 # ...
   load:
     my_config:
-      drop: { "--connection": 'my_connection' }
-      create: { "--connection": 'my_connection' }
+      drop: { "--em": 'my_em' }
       update: { "--em": 'my_em' }
       load: { "--em": 'my_em' }
 ```

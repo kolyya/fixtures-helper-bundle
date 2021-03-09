@@ -14,12 +14,10 @@ class Configuration implements ConfigurationInterface
 
     public static $defaultConfig = [
         'drop' => [
-            '--connection' => self::DEFAULT_NAME,
+            '--em' => self::DEFAULT_NAME,
+            '--full-database' => self::DEFAULT_NAME,
 //            '--if-exists' => true,
             '--force' => true,
-        ],
-        'create' => [
-            '--connection' => self::DEFAULT_NAME,
         ],
         'update' => [
             '--em' => self::DEFAULT_NAME,
@@ -56,7 +54,6 @@ class Configuration implements ConfigurationInterface
             ->prototype('array')
             ->children()
             ->arrayNode('drop')->defaultValue(self::$defaultConfig['drop'])->normalizeKeys(false)->variablePrototype()->end()->end()
-            ->arrayNode('create')->defaultValue(self::$defaultConfig['create'])->normalizeKeys(false)->variablePrototype()->end()->end()
             ->arrayNode('update')->defaultValue(self::$defaultConfig['update'])->normalizeKeys(false)->variablePrototype()->end()->end()
             ->arrayNode('load')->defaultValue(self::$defaultConfig['load'])->normalizeKeys(false)->variablePrototype()->end()->end()
             ->end()
