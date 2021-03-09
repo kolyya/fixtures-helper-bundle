@@ -9,8 +9,7 @@ Will completely clear the database.
 And load data from fixtures.
 
 **Run the following commands:**
-* `doctrine:database:drop --force`
-* `doctrine:database:create`
+* `doctrine:schema:drop --full-database --force`
 * `doctrine:schema:update --force`
 * `doctrine:fixtures:load --append`
 
