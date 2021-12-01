@@ -14,9 +14,11 @@ trait UploadFileTrait
         $this->kernelProjectDir = $uploaderHelper->getKernelProjectDir();
     }
 
-    public function getUploadedFile(string $imageName): UploadedFile
+    public function getUploadedFile(string $imageName, string $path = null): UploadedFile
     {
-        $imagePath = sprintf('%s%s', $this->getPath(), $imageName);
+        $path = $path ?: $this->getPath();
+
+        $imagePath = sprintf('%s%s', $path, $imageName);
         copy($imagePath, sprintf('%s.tmp', $imagePath));
 
         return new UploadedFile($imagePath . '.tmp', $imageName, null, null, true);
