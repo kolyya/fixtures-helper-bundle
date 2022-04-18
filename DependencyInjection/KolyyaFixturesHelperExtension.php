@@ -32,6 +32,7 @@ class KolyyaFixturesHelperExtension extends Extension
         }
 
         $container->setParameter('kolyya_fixtures_helper.load', $config['load']);
+        $container->setParameter('kolyya_fixtures_helper.backup_path', $config['backup_path']);
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yaml');

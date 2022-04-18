@@ -41,6 +41,12 @@ class Configuration implements ConfigurationInterface
 
         $this->addLoadSection($root);
 
+        $root
+            ->children()
+            ->scalarNode('backup_path')
+            ->defaultNull()
+            ->end();
+
         return $treeBuilder;
     }
 

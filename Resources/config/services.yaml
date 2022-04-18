@@ -4,6 +4,8 @@ services:
       name: console.command
       command: kolyya:fixtures:load
     arguments:
+      $backupPath: '%kolyya_fixtures_helper.backup_path%'
+      $doctrine: '@doctrine'
       $loadConfig: '%kolyya_fixtures_helper.load%'
 
   Kolyya\FixturesHelperBundle\Service\UploaderHelper:
