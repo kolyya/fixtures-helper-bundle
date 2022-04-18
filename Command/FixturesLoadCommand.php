@@ -60,11 +60,10 @@ class FixturesLoadCommand extends DoctrineCommand
         $this->em = $this->getDoctrine()->getManager($input->getOption('em'));
 
         if ($this->backupPath) {
-            try {
-                $backupFilename = $this->doBackup();
-                $io->success('Database backup should be here: ' . $backupFilename);
-            } catch (\RuntimeException $e) {
-                $io->warning('Backup has not been made: ' . $e->getMessage());
+            $backupFilename = $this->doBackup($io);
+
+            if (false === $backupFilename) {
+                $io->error('Backup file was not created');
                 return 0;
             }
         }
@@ -101,12 +100,13 @@ class FixturesLoadCommand extends DoctrineCommand
         return 0;
     }
 
-    private function doBackup()
+    private function doBackup(SymfonyStyle $io)
     {
         $dbParams = $this->em->getConnection()->getParams();
 
         if ($dbParams['driver'] !== 'pdo_mysql') {
-            throw new \RuntimeException("DB Driver '{$dbParams['driver']}' not supported");
+            $io->warning("DB Driver '{$dbParams['driver']}' not supported");
+            return false;
         }
 
         $filename = $this->backupPath . '/' . date("YmdHis") . '.sql';
@@ -120,19 +120,24 @@ class FixturesLoadCommand extends DoctrineCommand
             '>"' . $filename . '"'
         ];
 
+        $io->text('Run mysqldump command:');
+        $io->block(implode(' ', $command), null, 'fg=yellow');
         $process = Process::fromShellCommandline(implode(' ', $command));
-        $result = '';
-        $process->run(function ($type, $buffer) use (&$result) {
-            $result = $buffer;
+        $process->run(function ($type, $buffer) use ($io) {
+            $io->note($buffer);
         }, []);
 
         if (!file_exists($filename)) {
-            throw new \RuntimeException("Backup file was not created. \n" . $result);
+            $io->warning("Backup file was not created");
+            return false;
         }
 
         if (0 === filesize($filename)) {
-            throw new \RuntimeException("Backup file is empty. \n" . $result);
+            $io->warning("Backup file is empty");
+            return false;
         }
+
+        $io->success('Database backup should be here: ' . $filename);
 
         return $filename;
     }
