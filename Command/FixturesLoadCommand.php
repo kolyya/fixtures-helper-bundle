@@ -62,7 +62,7 @@ class FixturesLoadCommand extends DoctrineCommand
         if ($this->backupPath) {
             try {
                 $backupFilename = $this->doBackup();
-                $io->note('Database backup should be here: ' . $backupFilename);
+                $io->success('Database backup should be here: ' . $backupFilename);
             } catch (\RuntimeException $e) {
                 $io->warning('Backup has not been made: ' . $e->getMessage());
                 return 0;
@@ -121,7 +121,18 @@ class FixturesLoadCommand extends DoctrineCommand
         ];
 
         $process = Process::fromShellCommandline(implode(' ', $command));
-        $process->run(null, []);
+        $result = '';
+        $process->run(function ($type, $buffer) use (&$result) {
+            $result = $buffer;
+        }, []);
+
+        if (!file_exists($filename)) {
+            throw new \RuntimeException("Backup file was not created. \n" . $result);
+        }
+
+        if (0 === filesize($filename)) {
+            throw new \RuntimeException("Backup file is empty. \n" . $result);
+        }
 
         return $filename;
     }
